@@ -2496,7 +2496,46 @@
     "name": "solc",
     "version": "0.4.24+commit.e67f0147.Emscripten.clang"
   },
-  "networks": {},
-  "schemaVersion": "2.0.1",
-  "updatedAt": "2021-12-09T04:53:41.338Z"
+  "networks": {
+    "4": {
+      "events": {},
+      "links": {},
+      "address": "0xbEeae52B4182d9EC23d12133db1eb73bc5A06189",
+      "transactionHash": "0x047a9dbf7dc18806100308e8cff53445febde532fa64236888fac5fd8391e64d"
+    },
+    "5777": {
+      "events": {
+        "0x2e0ded4123377a3c2bc9a26f1717655a129e2f20752924d42e730ec89c83dbd0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            }
+          ],
+          "name": "FarmerAdded",
+          "type": "event"
+        },
+        "0xa5e0f060af304ab17dd418c7927e3da3ae7868189bf387aee09ab179ccc572f2": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "account",
+              "type": "address"
+            }
+          ],
+          "name": "FarmerRemoved",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x96dF8Bb9Dcd1620561B5F84C4d7c3B382815aC31",
+      "transactionHash": "0x3c7ce047b5d01e1b2a0802bdce743a19233986f305028acc592c1019738b24c2"
+    }
+  },
+  "schemaVersion": "3.4.3",
+  "updatedAt": "2021-12-14T06:53:33.010Z",
+  "networkType": "ethereum"
 }

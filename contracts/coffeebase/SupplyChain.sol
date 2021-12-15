@@ -1,5 +1,11 @@
 pragma solidity ^0.4.24;
 
+import "../coffeecore/Ownable.sol";
+import "../coffeeaccesscontrol/FarmerRole.sol";
+import "../coffeeaccesscontrol/DistributorRole.sol";
+import "../coffeeaccesscontrol/RetailerRole.sol";
+import "../coffeeaccesscontrol/ConsumerRole.sol";
+
 // Define a contract 'Supplychain'
 // is
 // Ownable,
@@ -7,9 +13,15 @@ pragma solidity ^0.4.24;
 // ConsumerRole,
 // RetailerRole,
 // DistributorRole
-contract SupplyChain {
+contract SupplyChain is
+    Ownable,
+    FarmerRole,
+    DistributorRole,
+    RetailerRole,
+    ConsumerRole
+{
     // Define 'owner'
-    address owner;
+    address _owner;
 
     // Define a variable called 'upc' for Universal Product Code (UPC)
     uint256 upc;
@@ -69,7 +81,7 @@ contract SupplyChain {
 
     // Define a modifer that checks to see if msg.sender == owner of the contract
     modifier onlyOwner() {
-        require(msg.sender == owner);
+        require(msg.sender == _owner);
         _;
     }
 
@@ -145,15 +157,15 @@ contract SupplyChain {
     // and set 'sku' to 1
     // and set 'upc' to 1
     constructor() public payable {
-        owner = msg.sender;
+        _owner = msg.sender;
         sku = 1;
         upc = 1;
     }
 
     // Define a function 'kill' if required
     function kill() public {
-        if (msg.sender == owner) {
-            selfdestruct(owner);
+        if (msg.sender == _owner) {
+            selfdestruct(_owner);
         }
     }
 
@@ -168,16 +180,16 @@ contract SupplyChain {
         string _productNotes
     ) public {
         // Add the new item as part of Harvest
-        Item newItem = Item({
+        Item memory newItem = Item({
             sku: sku,
             upc: _upc,
-            ownerID: msg.sender,
+            ownerID: _originFarmerID,
             originFarmerID: _originFarmerID,
             originFarmName: _originFarmName,
             originFarmInformation: _originFarmInformation,
             originFarmLatitude: _originFarmLatitude,
             originFarmLongitude: _originFarmLongitude,
-            productID: _upc + sku,
+            productID: sku + _upc,
             productNotes: _productNotes,
             productPrice: 0,
             itemState: State.Harvested,
@@ -227,6 +239,7 @@ contract SupplyChain {
         onlyFarmer
     {
         // Update the appropriate fields
+        items[_upc].productPrice = _price;
         items[_upc].itemState = State.ForSale;
         // Emit the appropriate event
         emit ForSale(_upc);
@@ -239,7 +252,7 @@ contract SupplyChain {
         public
         payable
         forSale(_upc)
-        paidEnough(items[_upc].productPrice) 
+        paidEnough(items[_upc].productPrice)
         checkValue(_upc)
         onlyDistributor
     {
@@ -250,7 +263,7 @@ contract SupplyChain {
         // Transfer money to farmer
         items[_upc].originFarmerID.transfer(items[_upc].productPrice);
         // emit the appropriate event
-        emit Sold(_upc)
+        emit Sold(_upc);
     }
 
     // Define a function 'shipItem' that allows the distributor to mark an item 'Shipped'
@@ -269,11 +282,7 @@ contract SupplyChain {
 
     // Define a function 'receiveItem' that allows the retailer to mark an item 'Received'
     // Use the above modifiers to check if the item is shipped
-    function receiveItem(uint256 _upc)
-        public 
-        shipped(_upc) 
-        onlyRetailer
-    {
+    function receiveItem(uint256 _upc) public shipped(_upc) onlyRetailer {
         // Update the appropriate fields - ownerID, retailerID, itemState
         items[_upc].ownerID = msg.sender;
         items[_upc].retailerID = msg.sender;
@@ -284,11 +293,7 @@ contract SupplyChain {
 
     // Define a function 'purchaseItem' that allows the consumer to mark an item 'Purchased'
     // Use the above modifiers to check if the item is received
-    function purchaseItem(uint256 _upc)
-        public 
-        received(_upc) 
-        onlyConsumer
-    {
+    function purchaseItem(uint256 _upc) public received(_upc) onlyConsumer {
         // Update the appropriate fields - ownerID, consumerID, itemState
         items[_upc].ownerID = msg.sender;
         items[_upc].consumerID = msg.sender;
@@ -356,7 +361,7 @@ contract SupplyChain {
         productID = items[_upc].productID;
         productNotes = items[_upc].productNotes;
         productPrice = items[_upc].productPrice;
-        itemState = uint(items[_upc].itemState);
+        itemState = uint256(items[_upc].itemState);
         distributorID = items[_upc].distributorID;
         retailerID = items[_upc].retailerID;
         consumerID = items[_upc].consumerID;
