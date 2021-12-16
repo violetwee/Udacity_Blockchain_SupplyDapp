@@ -178,7 +178,7 @@ contract SupplyChain is
         string _originFarmLatitude,
         string _originFarmLongitude,
         string _productNotes
-    ) public {
+    ) public onlyFarmer {
         // Add the new item as part of Harvest
         Item memory newItem = Item({
             sku: sku,
