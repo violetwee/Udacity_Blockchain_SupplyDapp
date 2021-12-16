@@ -24,12 +24,89 @@ This is a demo dapp for tracking coffee beans through a supply chain.
 
 Refer to the UML diagrams for more information.
 
-## Libraries:
+# Getting Started
+
+## Prerequisites
+
+Please make sure that you have installed ganache-cli, Truffle and enabled MetaMask extension in your browser. You will also need an account on Infura.
+
+| Name        | Link                                    |
+| ----------- | --------------------------------------- |
+| ganache-cli | https://github.com/trufflesuite/ganache |
+| Truffle     | https://trufflesuite.com/               |
+| MetaMask    | https://metamask.io/                    |
+| Infura      | https://infura.io/                      |
+
+### MetaMask
+
+Switch to Rinkeby Test Network and create 4 accounts, one for each stakeholder.
+To get some ether for testing, go to https://faucets.chain.link/rinkeby.
+
+### Infura
+
+To deploy to the Rinkeby Test Network, create a new project and replace the infuraKey value in truffle.js with your project id. You can find your Infura project's project id in Settings. Make sure that the Endpoint selected is Rinkeby.
+
+## Installing
+
+Clone this repository:
+
+```sh
+git clone https://github.com/violetwee/Udacity_Blockchain_SupplyDapp.git
+```
+
+Change directory to project-6 folder and install all requisite npm packages (as listed in package.json):
+
+```sh
+cd Udacity_Blockchain_SupplyDapp
+npm install
+```
+
+Launch Ganache:
+
+```sh
+ganache-cli -m <your seed phrase>
+```
+
+In a separate terminal window, run
+
+```sh
+truffle compile
+```
+
+This will compile the smart contracts.
+
+To test the smart contracts, run
+
+```sh
+truffle test
+```
+
+<img src="https://github.com/violetwee/Udacity_Blockchain_SupplyDapp/blob/main/Screenshots/truffle-test.png" width="800px" height="auto"/>
+
+To deploy to Rinkeby Test Network:
+
+```sh
+truffle migrate --network rinkeby
+```
+
+<img src="https://github.com/violetwee/Udacity_Blockchain_SupplyDapp/blob/main/Screenshots/truffle-migrate.png" width="800px" height="auto"/>
+
+To launch the Dapp's front end (web interface), in a separate terminal, run
+
+```sh
+npm run dev
+```
+
+<img src="https://github.com/violetwee/Udacity_Blockchain_SupplyDapp/blob/main/Screenshots/front-end.png" width="800px" height="auto"/>
+
+Enter the Farmer ID, Distributor ID, Retailer ID and Consumer ID (Use the accounts from your MetaMask). Ensure the accounts are for the Rinkeby Test Network.
+
+## Libraries & Versions:
 
 - Truffle v5.4.23 (core: 5.4.23)
-- Solidity - ^0.4.24 (solc-js)
-- truffle-hdwallet-provider - ^1.0.17
-- web3 - ^1.6.1
+- Solidity ^0.4.24 (solc-js)
+- truffle-hdwallet-provider ^1.0.17
+- web3 ^1.6.1
 - Node v11.15.0
 - Web3.js v1.5.3
 
@@ -42,3 +119,6 @@ Contract Address:
 
 Txn Hash:
 0xc496d7b89974e97bf1ca95e585e5c5021241c2969829d970849534e3acde55e5
+
+Rinkeby Etherscan:
+https://rinkeby.etherscan.io/
