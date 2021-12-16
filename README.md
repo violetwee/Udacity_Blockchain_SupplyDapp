@@ -54,7 +54,7 @@ Clone this repository:
 git clone https://github.com/violetwee/Udacity_Blockchain_SupplyDapp.git
 ```
 
-Change directory to project-6 folder and install all requisite npm packages (as listed in package.json):
+Change directory to Udacity_Blockchain_SupplyDapp folder and install all required npm packages (as listed in package.json):
 
 ```sh
 cd Udacity_Blockchain_SupplyDapp
